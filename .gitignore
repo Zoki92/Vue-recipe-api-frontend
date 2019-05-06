@@ -2,7 +2,9 @@ env
 .vscode
 .idea
 app
-
+.travis
+docker-compose
+Dockerfile
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
