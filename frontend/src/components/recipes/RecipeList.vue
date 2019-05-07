@@ -9,12 +9,19 @@
     >
       <b-row no-gutters>
         <b-col md="6">
-          <b-card-img :src="recipe.image" class="rounded-0 image-link"></b-card-img>
+          <b-card-img :src="recipe.image || 'null'" class="rounded-0 image-link"></b-card-img>
         </b-col>
         <b-col md="6">
-          <b-card-body :title="recipe.title">
-            <b-card-text>{{ recipe.description}}</b-card-text>
-            <b-card-text>{{ recipe.price }}</b-card-text>
+          <b-card-body>
+            <b-card-text>
+              <router-link
+                class="link-recipe"
+                v-if="recipe.id"
+                :to="{ name: 'RecipeDet', params: { id: recipe.id}}"
+              >{{ recipe.title }}</router-link>
+            </b-card-text>
+            <b-card-text class="item-recipe">{{ recipe.description}}</b-card-text>
+            <b-card-text class="recipe-price">{{ recipe.price }}$</b-card-text>
           </b-card-body>
         </b-col>
       </b-row>
@@ -26,13 +33,6 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Recipes",
-  data: function() {
-    return {
-      title: "",
-      src: ""
-    };
-  },
-
   methods: {
     ...mapActions(["fetchRecipes"])
   },
@@ -46,5 +46,17 @@ export default {
 <style scoped>
 .image-link {
   height: 300px;
+}
+
+.link-recipe {
+  text-decoration: none;
+  color: rgb(12, 204, 44);
+}
+
+.item-recipe {
+  color: rgb(8, 7, 7);
+}
+.recipe-price {
+  color: rgb(14, 235, 187);
 }
 </style>

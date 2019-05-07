@@ -1,17 +1,22 @@
 <template>
-  <div class="container">
+  <b-container>
     <NavBar></NavBar>
-    <RecipeList></RecipeList>
-  </div>
+    <router-view/>
+  </b-container>
 </template>
 
 <script>
 import NavBar from "./components/navigation/NavBar.vue";
 import RecipeList from "./components/recipes/RecipeList.vue";
+
 export default {
   components: {
-    NavBar,
-    RecipeList
+    NavBar
+  },
+  data() {
+    return {
+      id: 0
+    };
   }
 };
 </script>
