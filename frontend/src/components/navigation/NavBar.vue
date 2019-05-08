@@ -5,13 +5,12 @@
         <b-nav-item tag="light" href="#">Home</b-nav-item>
 
         <!-- Navbar dropdowns -->
-        <b-nav-item-dropdown text="Lang" right>
-          <b-dropdown-item href="#">EN</b-dropdown-item>
-          <b-dropdown-item href="#">ES</b-dropdown-item>
-          <b-dropdown-item href="#">RU</b-dropdown-item>
-          <b-dropdown-item href="#">FA</b-dropdown-item>
+        <b-nav-item-dropdown text="Add" right>
+          <b-dropdown-item>
+            <router-link :to="{name: 'AddRecipe'}">Add Recipe</router-link>
+          </b-dropdown-item>
+          <b-dropdown-item href="#">Add Ingredient</b-dropdown-item>
         </b-nav-item-dropdown>
-
         <b-nav-item-dropdown text="User" right>
           <b-dropdown-item href="#">Account</b-dropdown-item>
           <b-dropdown-item href="#">Settings</b-dropdown-item>
