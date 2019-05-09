@@ -28,11 +28,25 @@
         <b-form-input id="input-4" v-model="form.price" required placeholder="Enter Price"></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-5" label="Your Ingredients:" label-for="input-5">
+      <b-form-group
+        v-if="allIngredients"
+        id="input-group-5"
+        label="Your Ingredients:"
+        label-for="input-5"
+      >
         <b-form-select
           id="input-5"
-          v-model="selected"
-          :options="ingredientNames"
+          v-model="form.selected"
+          :options="options"
+          multiple
+          :select-size="4"
+        ></b-form-select>
+      </b-form-group>
+      <b-form-group v-if="allTags" id="input-group-6" label="Your Tags:" label-for="input-6">
+        <b-form-select
+          id="input-6"
+          v-model="form.checked"
+          :options="tags"
           multiple
           :select-size="4"
         ></b-form-select>
@@ -58,16 +72,15 @@ export default {
         time_minutes: null,
         price: null,
         link: "",
-        selected: "",
+        selected: [],
         image: "",
         checked: []
       },
-      selected: [{ text: "Select", value: null }],
       show: true
     };
   },
   methods: {
-    ...mapActions(["fetchIngredients"]),
+    ...mapActions(["fetchIngredients", "fetchTags"]),
     onSubmit(evt) {
       evt.preventDefault();
       alert(JSON.stringify(this.form));
@@ -80,6 +93,8 @@ export default {
       this.form.time_minutes = null;
       this.form.price = null;
       this.form.link = "";
+      this.form.selected = [];
+      this.form.tags = [];
 
       // Trick to reset/clear native browser form validation state
       this.show = false;
@@ -89,13 +104,24 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["allIngredients"]),
-    ingredientNames: function() {
-      return this.allIngredients.forEach(elem => elem.name);
+    ...mapGetters(["allIngredients", "allTags"]),
+    options: function() {
+      return this.allIngredients.map(elem => ({
+        value: elem.id,
+        text: elem.name
+      }));
+    },
+    tags: function() {
+      return this.allTags.map(elem => ({
+        value: elem.id,
+        text: elem.name
+      }));
     }
   },
+
   created() {
     this.fetchIngredients();
+    this.fetchTags();
   }
 };
 </script>
