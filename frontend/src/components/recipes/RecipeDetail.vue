@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="recipeDetail">
     <router-link v-if="recipeDetail.id" :to="{ name: 'Home'}">
       <b-button variant="danger" style="margin-top: 5px">Go back</b-button>
     </router-link>

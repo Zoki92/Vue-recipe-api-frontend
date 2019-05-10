@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="allRecipes">
     <b-card
       v-for="recipe in allRecipes"
       :key="recipe.id"

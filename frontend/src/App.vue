@@ -7,7 +7,6 @@
 
 <script>
 import NavBar from "./components/navigation/NavBar.vue";
-import RecipeList from "./components/recipes/RecipeList.vue";
 
 export default {
   components: {
