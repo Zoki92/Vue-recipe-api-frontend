@@ -1,12 +1,13 @@
 <template>
-  <div v-if="recipeDetail">
-    <router-link v-if="recipeDetail.id" :to="{ name: 'Home'}">
+  <div>
+    <router-link :to="{ name: 'Home'}">
       <b-button variant="danger" style="margin-top: 5px">Go back</b-button>
     </router-link>
     <b-card class="detail-body">
       <b-media no-body>
         <b-media-aside vertical-align="top">
           <b-img
+            v-if="recipeDetail.image"
             :src="recipeDetail.image"
             blank-color="#ccc"
             width="300"
@@ -34,17 +35,44 @@
         </b-media-body>
       </b-media>
     </b-card>
+
+    <b-form-file
+      style="margin-top:10px;"
+      v-model="file"
+      @change="handleFileUpload"
+      placeholder="Change Recipe Image..."
+      drop-placeholder="Drop file here..."
+    ></b-form-file>
+    <button class="btn btn-danger mt-2" @click="submitFile">Submit</button>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "RecipeDetail",
-
+  data() {
+    return {
+      file: "",
+      id: this.$route.params.id
+    };
+  },
   methods: {
-    ...mapActions(["fetchRecipe"])
+    ...mapActions(["fetchRecipe", "addImage"]),
+    submitFile() {
+      const fd = new FormData();
+      fd.append("image", this.file, this.file.name);
+      this.addImage({
+        formData: fd,
+        id: this.id
+      });
+      this.file = "";
+    },
+    handleFileUpload(evt) {
+      this.file = evt.target.files[0];
+    }
   },
   computed: {
     ...mapGetters(["recipeDetail"])

@@ -6,10 +6,11 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import store from "./store/index";
 import router from "./router";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(faPlus);
+library.add(faTrashAlt);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 

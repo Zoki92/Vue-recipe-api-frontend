@@ -1,11 +1,13 @@
 <template>
   <div>
-    <b-navbar type="dark" variant="dark">
+    <b-navbar type="dark" variant="dark" class="navbar">
       <b-navbar-nav>
-        <b-nav-item tag="light" href="#">Home</b-nav-item>
+        <b-nav-item tag="light" class="home">
+          <router-link :to="{ name: 'Home'}">Home</router-link>
+        </b-nav-item>
 
         <!-- Navbar dropdowns -->
-        <b-nav-item-dropdown text="Add" right>
+        <b-nav-item-dropdown text="Add" right class="dropdown">
           <b-dropdown-item>
             <router-link :to="{name: 'AddRecipe'}">Add Recipe</router-link>
           </b-dropdown-item>
@@ -25,4 +27,12 @@ export default {};
 </script>
 
 <style scoped>
+.home a {
+  text-decoration: none;
+  color: white;
+}
+.dropdown a {
+  text-decoration: none;
+  color: black;
+}
 </style>

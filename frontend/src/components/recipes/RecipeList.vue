@@ -9,7 +9,7 @@
     >
       <b-row no-gutters>
         <b-col md="6">
-          <b-card-img :src="recipe.image || 'null'" class="rounded-0 image-link"></b-card-img>
+          <b-card-img v-if="recipe.image" :src="recipe.image" class="rounded-0 image-link"></b-card-img>
         </b-col>
         <b-col md="6">
           <b-card-body>
@@ -21,7 +21,16 @@
               >{{ recipe.title }}</router-link>
             </b-card-text>
             <b-card-text class="item-recipe">{{ recipe.description}}</b-card-text>
-            <b-card-text class="recipe-price">{{ recipe.price }}$</b-card-text>
+            <b-card-text class="recipe-price">Price: {{ recipe.price }}$</b-card-text>
+            <b-card-text class="recipe-price">Time to prepare: {{ recipe.time_minutes }} minutes</b-card-text>
+            <b-card-text
+              class="recipe-price"
+              style="color:red; cursor:pointer;"
+              @click="deleteImg(recipe.id)"
+            >
+              <font-awesome-icon icon="trash-alt"/>
+              {{ " " }}Delete
+            </b-card-text>
           </b-card-body>
         </b-col>
       </b-row>
@@ -34,7 +43,10 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Recipes",
   methods: {
-    ...mapActions(["fetchRecipes"])
+    ...mapActions(["fetchRecipes", "deleteImage"]),
+    deleteImg(id) {
+      this.deleteImage(id);
+    }
   },
   computed: mapGetters(["allRecipes"]),
   created() {
