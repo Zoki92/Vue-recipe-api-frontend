@@ -1,6 +1,6 @@
 # Vue-recipe-api-frontend
-This is the frontend for the Django recipe app, backend code is not provided
-
+This is the frontend for the Django recipe app, backend code is not provided, 
+can be found here: https://github.com/Zoki92/recipy-app-api
 
 ## Project setup
 ```
