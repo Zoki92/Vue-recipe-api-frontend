@@ -3,6 +3,7 @@ import Router from "vue-router";
 import RecipeDetail from "@/components/recipes/RecipeDetail";
 import RecipeList from "@/components/recipes/RecipeList";
 import AddRecipe from "@/components/recipes/AddRecipe";
+import UpdateRecipeForm from "@/components/recipes/UpdateRecipeForm";
 Vue.use(Router);
 
 export default new Router({
@@ -16,6 +17,11 @@ export default new Router({
       path: "/recipe/:id",
       name: "RecipeDet",
       component: RecipeDetail
+    },
+    {
+      path: "/recipe/:id/update",
+      name: "UpdateRecipe",
+      component: UpdateRecipeForm
     },
     {
       path: "/",

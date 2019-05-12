@@ -6,8 +6,22 @@ const recipesModule = {
   },
 
   getters: {
-    allRecipes: state => state.recipes,
-    recipeDetail: state => state.recipes
+    allRecipes: state => {
+      return state.recipes;
+    },
+    recipeDetail: state => {
+      return state.recipes;
+    },
+    ingredientsInDetail: state => {
+      if (state.recipes.ingredients) {
+        return state.recipes.ingredients.map(ing => ing.id);
+      }
+    },
+    tagsInDetail: state => {
+      if (state.recipes.tags) {
+        return state.recipes.tags.map(ing => ing.id);
+      }
+    }
   },
 
   actions: {
@@ -82,17 +96,49 @@ const recipesModule = {
       commit("uploadImage", response.data);
     },
     async deleteImage({ commit }, id) {
-      const response = await axios.delete(
+      await axios.delete(
         `http://localhost:8000/api/recipy/recipes/${id}/`,
 
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
           }
         }
       );
       commit("removeImage", id);
+    },
+    async updateRecipe({ commit }, { form, id }) {
+      const {
+        title,
+        description,
+        selected,
+        tags,
+        time_minutes,
+        price,
+        file
+      } = form;
+      var data = {
+        title: title,
+        description: description,
+        ingredients: selected,
+        tags: tags,
+        time_minutes: time_minutes,
+        price: price,
+        image: file
+      };
+
+      const response = await axios.put(
+        `http://localhost:8000/api/recipy/recipes/${id}/`,
+        data,
+        {
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+          }
+        }
+      );
+      commit("updRecipe", response.data);
     }
   },
 
@@ -104,9 +150,9 @@ const recipesModule = {
       state.recipes.image = image.image;
     },
     removeImage: (state, id) => {
-      console.log(id);
       state.recipes = state.recipes.filter(recipe => recipe.id !== id);
-    }
+    },
+    updRecipe: (state, recipe) => (state.recipes = recipe)
   }
 };
 

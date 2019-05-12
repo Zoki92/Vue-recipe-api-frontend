@@ -34,6 +34,15 @@
           </b-media>
         </b-media-body>
       </b-media>
+      <router-link
+        v-if="recipeDetail.id"
+        :to="{ name: 'UpdateRecipe', params: { id: recipeDetail.id}}"
+      >
+        <p class="update-recipe">
+          <font-awesome-icon icon="pen"/>
+          {{" "}}Update Recipe
+        </p>
+      </router-link>
     </b-card>
 
     <b-form-file
@@ -85,6 +94,9 @@ export default {
 
 <style scoped>
 .detail-body {
+  margin-top: 10px;
+}
+.update-recipe {
   margin-top: 10px;
 }
 </style>

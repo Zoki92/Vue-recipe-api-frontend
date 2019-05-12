@@ -4,8 +4,8 @@
       <b-form-group id="input-group-1" label="Title:" label-for="input-1">
         <b-form-input
           id="input-1"
-          v-model="form.title"
           type="text"
+          v-model="form.title"
           required
           placeholder="Enter Title"
         ></b-form-input>
@@ -133,7 +133,14 @@
       <!-- End Modal for Tags -->
 
       <b-button type="submit" variant="primary" style="margin-right:5px">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+
+      <router-link
+        class="update-recipe"
+        v-if="recipeDetail.id"
+        :to="{ name: 'RecipeDet', params: { id: recipeDetail.id}}"
+      >
+        <b-button type="reset" variant="success">Cancel</b-button>
+      </router-link>
     </b-form>
   </div>
 </template>
@@ -141,6 +148,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
+  name: "UpdateRecipeForm",
   data() {
     return {
       form: {
@@ -158,7 +166,8 @@ export default {
       },
       form_tags: {
         name: ""
-      }
+      },
+      id: ""
     };
   },
   methods: {
@@ -167,11 +176,13 @@ export default {
       "fetchTags",
       "createIngredient",
       "createTag",
-      "createRecipe"
+      "createRecipe",
+      "fetchRecipe",
+      "updateRecipe"
     ]),
     onSubmit(evt) {
       evt.preventDefault();
-      this.createRecipe(this.form);
+      this.updateRecipe({ form: this.form, id: this.id });
       this.$router.push("/");
     },
     onSubmitIng(evt) {
@@ -198,10 +209,16 @@ export default {
       this.$nextTick(() => {
         this.show = true;
       });
+    },
+    selectedIngredients: function() {
+      return this.recipeDetail.ingredients.map(ingr => ingr.id);
+    },
+    selectedTags: function() {
+      return this.recipeDetail.tags.map(tag => tag.id);
     }
   },
   computed: {
-    ...mapGetters(["allIngredients", "allTags"]),
+    ...mapGetters(["allIngredients", "allTags", "recipeDetail"]),
     options: function() {
       return this.allIngredients.map(elem => ({
         value: elem.id,
@@ -217,8 +234,20 @@ export default {
   },
 
   created() {
+    this.fetchRecipe(this.$route.params.id);
     this.fetchIngredients();
     this.fetchTags();
+  },
+
+  mounted() {
+    this.form.title = this.recipeDetail.title;
+    this.form.description = this.recipeDetail.description;
+    this.form.time_minutes = this.recipeDetail.time_minutes;
+    this.form.price = this.recipeDetail.price;
+    this.form.link = this.recipeDetail.link;
+    this.form.selected = this.selectedIngredients();
+    this.form.tags = this.selectedTags();
+    this.id = this.$route.params.id;
   }
 };
 </script>
