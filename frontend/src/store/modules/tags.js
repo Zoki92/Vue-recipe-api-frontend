@@ -37,12 +37,23 @@ const tagsModule = {
         }
       );
       commit("addTag", response.data);
+    },
+    async removeTag({ commit }, id) {
+      await axios.delete(`http://localhost:8000/api/recipy/tags/${id}`, {
+        headers: {
+          "content-type": "application/json",
+          Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+        }
+      });
+      commit("deleteTag", id);
     }
   },
 
   mutations: {
     setTags: (state, tags) => (state.tags = tags),
-    addTag: (state, tag) => state.tags.unshift(tag)
+    addTag: (state, tag) => state.tags.unshift(tag),
+    deleteTag: (state, id) =>
+      (state.tags = state.tags.filter(tag => tag.id !== id))
   }
 };
 

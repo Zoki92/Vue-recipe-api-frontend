@@ -160,6 +160,7 @@ export default {
         selected: [],
         tags: []
       },
+
       show: true,
       form_ingredients: {
         name: ""
@@ -209,12 +210,6 @@ export default {
       this.$nextTick(() => {
         this.show = true;
       });
-    },
-    selectedIngredients: function() {
-      return this.recipeDetail.ingredients.map(ingr => ingr.id);
-    },
-    selectedTags: function() {
-      return this.recipeDetail.tags.map(tag => tag.id);
     }
   },
   computed: {
@@ -230,6 +225,12 @@ export default {
         value: elem.id,
         text: elem.name
       }));
+    },
+    selectedIngredients: function() {
+      return this.recipeDetail.ingredients.map(ingr => ingr.id);
+    },
+    selectedTags: function() {
+      return this.recipeDetail.tags.map(tag => tag.id);
     }
   },
 
@@ -238,16 +239,17 @@ export default {
     this.fetchIngredients();
     this.fetchTags();
   },
-
-  mounted() {
-    this.form.title = this.recipeDetail.title;
-    this.form.description = this.recipeDetail.description;
-    this.form.time_minutes = this.recipeDetail.time_minutes;
-    this.form.price = this.recipeDetail.price;
-    this.form.link = this.recipeDetail.link;
-    this.form.selected = this.selectedIngredients();
-    this.form.tags = this.selectedTags();
-    this.id = this.$route.params.id;
+  watch: {
+    recipeDetail() {
+      this.form.title = this.recipeDetail.title;
+      this.form.description = this.recipeDetail.description;
+      this.form.time_minutes = this.recipeDetail.time_minutes;
+      this.form.price = this.recipeDetail.price;
+      this.form.link = this.recipeDetail.link;
+      this.form.selected = this.selectedIngredients;
+      this.form.tags = this.selectedTags;
+      this.id = this.recipeDetail.id;
+    }
   }
 };
 </script>

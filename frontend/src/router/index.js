@@ -4,6 +4,8 @@ import RecipeDetail from "@/components/recipes/RecipeDetail";
 import RecipeList from "@/components/recipes/RecipeList";
 import AddRecipe from "@/components/recipes/AddRecipe";
 import UpdateRecipeForm from "@/components/recipes/UpdateRecipeForm";
+import ListIngredients from "@/components/ingredients/ListIngredients";
+import ListTags from "@/components/tags/ListTags";
 Vue.use(Router);
 
 export default new Router({
@@ -22,6 +24,16 @@ export default new Router({
       path: "/recipe/:id/update",
       name: "UpdateRecipe",
       component: UpdateRecipeForm
+    },
+    {
+      path: "/ingredients",
+      name: "IngredientsList",
+      component: ListIngredients
+    },
+    {
+      path: "/tags",
+      name: "TagsList",
+      component: ListTags
     },
     {
       path: "/",

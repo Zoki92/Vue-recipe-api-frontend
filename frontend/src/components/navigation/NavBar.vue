@@ -11,7 +11,12 @@
           <b-dropdown-item>
             <router-link :to="{name: 'AddRecipe'}">Add Recipe</router-link>
           </b-dropdown-item>
-          <b-dropdown-item href="#">Add Ingredient</b-dropdown-item>
+          <b-dropdown-item>
+            <router-link :to="{name: 'IngredientsList'}">List of Ingredients</router-link>
+          </b-dropdown-item>
+          <b-dropdown-item>
+            <router-link :to="{name: 'TagsList'}">List of Tags</router-link>
+          </b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item-dropdown text="User" right>
           <b-dropdown-item href="#">Account</b-dropdown-item>
