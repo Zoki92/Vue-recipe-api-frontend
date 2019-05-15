@@ -7,6 +7,7 @@ import UpdateRecipeForm from "@/components/recipes/UpdateRecipeForm";
 import ListIngredients from "@/components/ingredients/ListIngredients";
 import ListTags from "@/components/tags/ListTags";
 import CreateUser from "@/components/auth/CreateUser";
+import Login from "@/components/auth/Login";
 Vue.use(Router);
 
 export default new Router({
@@ -40,6 +41,11 @@ export default new Router({
       path: "/create-user",
       name: "CreateUser",
       component: CreateUser
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: Login
     },
     {
       path: "/",

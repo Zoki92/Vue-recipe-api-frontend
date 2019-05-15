@@ -1,5 +1,6 @@
 <template>
   <div v-if="allRecipes">
+    {{ getUser }}
     <b-card
       v-for="recipe in allRecipes"
       :key="recipe.id"
@@ -43,14 +44,15 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Recipes",
   methods: {
-    ...mapActions(["fetchRecipes", "deleteImage"]),
+    ...mapActions(["fetchRecipes", "deleteImage", "getAuthUser"]),
     deleteImg(id) {
       this.deleteImage(id);
     }
   },
-  computed: mapGetters(["allRecipes"]),
+  computed: mapGetters(["allRecipes", "getUser"]),
   created() {
     this.fetchRecipes();
+    this.getAuthUser();
   }
 };
 </script>
