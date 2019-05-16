@@ -29,6 +29,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import router from "vue-router";
 export default {
   data() {
     return {
@@ -44,6 +45,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       this.obtainToken(this.form);
+      setTimeout(() => this.$router.push("/"), 500);
     }
   }
 };

@@ -20,15 +20,29 @@
         </b-nav-item-dropdown>
         <b-nav-item-dropdown text="User" right>
           <b-dropdown-item href="#">Account</b-dropdown-item>
-          <b-dropdown-item href="#">Settings</b-dropdown-item>
         </b-nav-item-dropdown>
+        <b-nav-item tag="light" class="home" @click="logOut()">Logout</b-nav-item>
+        <b-nav-item tag="light" class="home">
+          <router-link :to="{name: 'Login'}">Log In</router-link>
+        </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
   </div>
 </template>
 
 <script>
-export default {};
+import router from "vue-router";
+import { mapActions, mapGetters } from "vuex";
+export default {
+  name: "NavBar",
+  methods: {
+    ...mapActions(["logoutUser", "getAuthUser"]),
+    logOut() {
+      this.logoutUser();
+      this.$router.push("/login");
+    }
+  }
+};
 </script>
 
 <style scoped>

@@ -1,6 +1,5 @@
 <template>
   <div v-if="allRecipes">
-    {{ getUser }}
     <b-card
       v-for="recipe in allRecipes"
       :key="recipe.id"
@@ -43,16 +42,21 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Recipes",
+  data() {
+    return {
+      auth: false,
+      token: localStorage.getItem("token")
+    };
+  },
   methods: {
-    ...mapActions(["fetchRecipes", "deleteImage", "getAuthUser"]),
+    ...mapActions(["fetchRecipes", "deleteImage"]),
     deleteImg(id) {
       this.deleteImage(id);
     }
   },
-  computed: mapGetters(["allRecipes", "getUser"]),
-  created() {
-    this.fetchRecipes();
-    this.getAuthUser();
+  computed: mapGetters(["allRecipes"]),
+  mounted() {
+    this.fetchRecipes(this.token);
   }
 };
 </script>

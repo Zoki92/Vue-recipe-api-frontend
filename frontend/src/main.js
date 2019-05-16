@@ -8,6 +8,7 @@ import router from "./router";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPlus, faTrashAlt, faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import Axios from "axios";
 
 library.add(faPlus);
 library.add(faTrashAlt);

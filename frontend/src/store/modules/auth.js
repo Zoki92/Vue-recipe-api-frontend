@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import store from "../index";
 const authModule = {
   state: {
     authUser: {},
@@ -7,11 +7,11 @@ const authModule = {
     token: localStorage.getItem("token") || null
   },
   getters: {
-    getUser: state => state.authUser
+    isLoggedIn: state => !!state.token
   },
 
   actions: {
-    async createUser({ commit }, user) {
+    async createUser(user) {
       const { name, email, password } = user;
       const data = {
         name: name,
@@ -26,36 +26,49 @@ const authModule = {
         email,
         password
       };
-      console.log(data);
       const response = await axios.post(
         "http://localhost:8000/api/user/token/",
         data
       );
+      localStorage.setItem("token", response.data.token);
       commit("setToken", response.data);
     },
     async getAuthUser({ commit, state }) {
-      const response = await axios.get("http://localhost:8000/api/user/me/", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${state.token}`
-        }
-      });
-      commit("setAuthUser", response.data);
+      if (state.token) {
+        const response = await axios.get("http://localhost:8000/api/user/me/", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${state.token}`
+          }
+        });
+        commit("setAuthUser", response.data);
+      } else {
+        commit("setAuthUser");
+      }
+    },
+    async logoutUser({ commit }) {
+      commit("removeToken");
     }
   },
 
   mutations: {
-    setToken: (state, token) => {
-      localStorage.setItem("token", token.token);
-      state.token = token.token;
-    },
-    setAuthUser: (state, user) => {
-      state.authUser = user;
+    setToken: (state, data) => {
+      state.token = data.token;
       state.isAuthenticated = true;
     },
+    setAuthUser: (state, user = null) => {
+      if (user) {
+        state.authUser = user;
+        state.isAuthenticated = true;
+      } else {
+        state.isAuthenticated = false;
+      }
+    },
     removeToken(state) {
-      localStorage.removeItem("token");
+      state.authUser = {};
       state.token = null;
+      localStorage.removeItem("token");
+      store.state.recipes.recipes = [];
     }
   }
 };

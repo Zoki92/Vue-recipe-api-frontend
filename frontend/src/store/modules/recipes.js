@@ -25,32 +25,36 @@ const recipesModule = {
   },
 
   actions: {
-    async fetchRecipes({ commit }) {
-      const response = await axios.get(
-        "http://localhost:8000/api/recipy/recipes/",
-        {
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+    async fetchRecipes({ commit }, token) {
+      if (token) {
+        const response = await axios.get(
+          "http://localhost:8000/api/recipy/recipes/",
+          {
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Token ${token}`
+            }
           }
-        }
-      );
+        );
 
-      commit("setRecipes", response.data);
+        commit("setRecipes", response.data);
+      } else {
+        commit("setRecipes");
+      }
     },
-    async fetchRecipe({ commit }, id) {
+    async fetchRecipe({ commit, state }, id) {
       const response = await axios.get(
         `http://localhost:8000/api/recipy/recipes/${id}`,
         {
           headers: {
             "content-type": "application/json",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+            Authorization: `Token ${state.token}`
           }
         }
       );
       commit("setRecipe", response.data);
     },
-    async createRecipe({ commit }, form) {
+    async createRecipe({ commit, state }, form) {
       const {
         title,
         description,
@@ -76,39 +80,39 @@ const recipesModule = {
         {
           headers: {
             "content-type": "application/json",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+            Authorization: `Token ${state.token}`
           }
         }
       );
       commit("addRecipe", response.data);
     },
-    async addImage({ commit }, { formData, id }) {
+    async addImage({ commit, state }, { formData, id }) {
       const response = await axios.post(
         `http://localhost:8000/api/recipy/recipes/${id}/upload-image/`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+            Authorization: `Token ${state.token}`
           }
         }
       );
       commit("uploadImage", response.data);
     },
-    async deleteImage({ commit }, id) {
+    async deleteImage({ commit, state }, id) {
       await axios.delete(
         `http://localhost:8000/api/recipy/recipes/${id}/`,
 
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+            Authorization: `Token ${state.token}`
           }
         }
       );
       commit("removeImage", id);
     },
-    async updateRecipe({ commit }, { form, id }) {
+    async updateRecipe({ commit, state }, { form, id }) {
       const {
         title,
         description,
@@ -134,7 +138,7 @@ const recipesModule = {
         {
           headers: {
             "content-type": "application/json",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+            Authorization: `Token ${state.token}`
           }
         }
       );
@@ -143,7 +147,13 @@ const recipesModule = {
   },
 
   mutations: {
-    setRecipes: (state, recipes) => (state.recipes = recipes),
+    setRecipes: (state, recipes) => {
+      if (recipes) {
+        state.recipes = recipes;
+      } else {
+        state.recipes = [];
+      }
+    },
     setRecipe: (state, recipe) => (state.recipes = recipe),
     addRecipe: (state, recipe) => state.recipes.unshift(recipe),
     uploadImage: (state, image) => {
