@@ -11,13 +11,14 @@ const authModule = {
   },
 
   actions: {
-    async createUser(user) {
+    async createUser({ commit }, user) {
       const { name, email, password } = user;
       const data = {
         name: name,
         email: email,
         password: password
       };
+
       await axios.post("http://localhost:8000/api/user/create/", data);
     },
     async obtainToken({ commit }, form) {
@@ -69,6 +70,8 @@ const authModule = {
       state.token = null;
       localStorage.removeItem("token");
       store.state.recipes.recipes = [];
+      store.state.ingredients.ingredients = [];
+      store.state.tags.tags = [];
     }
   }
 };

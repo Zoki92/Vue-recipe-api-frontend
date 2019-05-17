@@ -44,8 +44,7 @@ export default {
   name: "Recipes",
   data() {
     return {
-      auth: false,
-      token: localStorage.getItem("token")
+      auth: false
     };
   },
   methods: {
@@ -56,7 +55,7 @@ export default {
   },
   computed: mapGetters(["allRecipes"]),
   mounted() {
-    this.fetchRecipes(this.token);
+    this.fetchRecipes();
   }
 };
 </script>

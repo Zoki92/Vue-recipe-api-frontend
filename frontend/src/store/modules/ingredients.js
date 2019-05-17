@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import store from "../index";
 const ingredientsModule = {
   state: {
     ingredients: []
@@ -11,18 +11,20 @@ const ingredientsModule = {
 
   actions: {
     async fetchIngredients({ commit }) {
+      let token = store.state.auth.token;
       const response = await axios.get(
         "http://localhost:8000/api/recipy/ingredients/",
         {
           headers: {
             "content-type": "application/json",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+            Authorization: `Token ${token}`
           }
         }
       );
       commit("setIngredients", response.data);
     },
     async createIngredient({ commit }, name) {
+      let token = store.state.auth.token;
       var data = {
         name: name
       };
@@ -32,19 +34,20 @@ const ingredientsModule = {
         {
           headers: {
             "content-type": "application/json",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+            Authorization: `Token ${token}`
           }
         }
       );
       commit("addIngredient", response.data);
     },
     async removeIngredient({ commit }, id) {
+      let token = store.state.auth.token;
       await axios.delete(
         `http://localhost:8000/api/recipy/ingredients/${id}/`,
         {
           headers: {
             "content-type": "application/json",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+            Authorization: `Token ${token}`
           }
         }
       );

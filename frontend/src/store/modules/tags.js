@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import store from "../index";
 const tagsModule = {
   state: {
     tags: []
@@ -11,18 +11,20 @@ const tagsModule = {
 
   actions: {
     async fetchTags({ commit }) {
+      let token = store.state.auth.token;
       const response = await axios.get(
         "http://localhost:8000/api/recipy/tags/",
         {
           headers: {
             "content-type": "application/json",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+            Authorization: `Token ${token}`
           }
         }
       );
       commit("setTags", response.data);
     },
     async createTag({ commit }, name) {
+      let token = store.state.auth.token;
       var data = {
         name: name
       };
@@ -32,17 +34,18 @@ const tagsModule = {
         {
           headers: {
             "content-type": "application/json",
-            Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+            Authorization: `Token ${token}`
           }
         }
       );
       commit("addTag", response.data);
     },
     async removeTag({ commit }, id) {
+      let token = store.state.auth.token;
       await axios.delete(`http://localhost:8000/api/recipy/tags/${id}`, {
         headers: {
           "content-type": "application/json",
-          Authorization: "Token a54d663c9fb1794cc055eb16e55744e48e4bb256"
+          Authorization: `Token ${token}`
         }
       });
       commit("deleteTag", id);

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -68,6 +68,7 @@ export default {
       this.form.email = "";
       this.form.password = "";
       this.form.name = "";
+      this.$router.push("/login");
     },
     onReset(evt) {
       evt.preventDefault();
@@ -75,15 +76,6 @@ export default {
       this.form.email = "";
       this.form.password = "";
       this.form.name = "";
-    }
-  },
-  computed: {
-    ...mapGetters(["createdUser"])
-  },
-  watch: {
-    createdUser: function() {
-      this.created = true;
-      this.newUser = this.createdUser.name;
     }
   }
 };

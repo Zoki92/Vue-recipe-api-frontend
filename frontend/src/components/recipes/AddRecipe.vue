@@ -172,7 +172,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       this.createRecipe(this.form);
-      this.$router.push("/");
+      setTimeout(() => this.$router.push("/"), 500);
     },
     onSubmitIng(evt) {
       evt.preventDefault();

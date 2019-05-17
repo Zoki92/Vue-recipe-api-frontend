@@ -21,8 +21,8 @@
         <b-nav-item-dropdown text="User" right>
           <b-dropdown-item href="#">Account</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-nav-item tag="light" class="home" @click="logOut()">Logout</b-nav-item>
-        <b-nav-item tag="light" class="home">
+        <b-nav-item v-if="isLoggedIn" tag="light" class="home" @click="logOut">Logout</b-nav-item>
+        <b-nav-item v-else tag="light" class="home">
           <router-link :to="{name: 'Login'}">Log In</router-link>
         </b-nav-item>
       </b-navbar-nav>
@@ -36,12 +36,13 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "NavBar",
   methods: {
-    ...mapActions(["logoutUser", "getAuthUser"]),
+    ...mapActions(["logoutUser"]),
     logOut() {
       this.logoutUser();
       this.$router.push("/login");
     }
-  }
+  },
+  computed: mapGetters(["isLoggedIn"])
 };
 </script>
 
